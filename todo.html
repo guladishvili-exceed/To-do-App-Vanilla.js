@@ -9,36 +9,31 @@
     <title>Document</title>
 </head>
 <body>
+   
+   <div class='container' id='todoForm'>
+        <h1>To Do List App</h1>
+       <input id='todoInput'>
+       <button type='button' class='btn btn-primary' onclick='todoList()'>Add</button>
+       
+       
+
+       <ol id='todoList'>
+        <li>Walkies</li>
+        <li>Gym</li>
+    
+       </ol>
+   </div>
+   
     
     
-    <div class='container'>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="content">
-                    <h1>To Do List</h1>
-
-                    <form id='toDoListForm'>
-                        <input id='toMakeInput'>
-
-                        <button type='button' class='btn btn-primary' onclick='todoList()'>Add New Item</button>
-                        
-                    
-                
-                    </form>
-
-                    <ul id='todoList'>
-                        <li>Walk Pupper</li>
-                        <li>Go to gym</li>
-                        <li>Etc</li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+        
+    
+    
+    
     
     
 <script src='todo.js'></script>
+
     
 </body>
 </html>
