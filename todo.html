@@ -1,30 +1,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <title>Document</title>
 </head>
 <body>
-    <h3>To Do</h3>
-
     
-    <div>
-
-        <form onsubmit="addItem()">
-            
-            <ul>
-                <li>Walk Dog</li>
-                <li>Work out</li>
-                <li>Etc</li>
-            </ul>
-
-            <input id='adding' name='todo' type='text' placeholder="what to add">
-
-
-            <input type='submit' value='Add'>
     
-        </form>
-       
+    <div class='container'>
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    <h1>To Do List</h1>
+
+                    <form id='toDoListForm'>
+                        <input id='toMakeInput'>
+
+                        <button type='button' class='btn btn-primary' onclick='todoList()'>Add New Item</button>
+                        
+                    
+                
+                    </form>
+
+                    <ul id='todoList'>
+                        <li>Walk Pupper</li>
+                        <li>Go to gym</li>
+                        <li>Etc</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     
     
 <script src='todo.js'></script>
