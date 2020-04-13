@@ -1,80 +1,47 @@
 
 
 function todoList() {
-
-	let item    = document.getElementById('todoInput').value
 	
-    let text    = document.createTextNode(item)
-    
-
+    let item    = document.getElementById('todoInput').value
+	
+	let text    = document.createTextNode(item)
+	
     let newItem = document.createElement('li')
 
     newItem.setAttribute('id','itemtomanipulate')
     
-    let checkBox=document.createElement('input')
+    let checkbox = document.createElement('input')
 
-    let edtButton = document.createElement('button')
+    checkbox.setAttribute('type','checkbox')
 
-    edtButton.innerHTML = 'Edit'
+    let dltBtn = document.createElement('button');
 
-    edtButton.addEventListener('click',editItem)
+    dltBtn.innerHTML='Remove'
 
-    let clrBtn=document.createElement('button')
+    dltBtn.addEventListener('click',removeBtn)
 
-    clrBtn.innerHTML = 'Remove'
+    newItem.appendChild(dltBtn)
+    
+    newItem.appendChild(checkbox)
 
-    clrBtn.setAttribute('id','itemToRemove')
-
-    clrBtn.addEventListener('click',removeItem)
-
-    checkBox.setAttribute('type','checkbox')
-
-    newItem.appendChild(edtButton)
-
-    newItem.appendChild(clrBtn)
-
-    newItem.appendChild(checkBox)
-	
-	newItem.appendChild(text)
-	
-	document.getElementById('todoList').appendChild(newItem) } 
-
-
+    newItem.appendChild(text)
+    
+    
    
+    
+    if (item === '') {
+        alert('Dont leave This Blank!')
+    } else { 
+        document.getElementById('todoList').appendChild(newItem)
+        
 
-    function removeItem() {
-        let itemToRemove = document.getElementById('itemtomanipulate');
-        itemToRemove.parentNode.removeChild(itemToRemove);
     }
+}
 
 
-    function editItem() {
-        let itemToEdit = document.getElementById('itemtomanipulate').value;
+function removeBtn() {
+    let itemToRemove = document.getElementById('itemtomanipulate');
+    itemToRemove.parentNode.removeChild(itemToRemove);
 
+}
 
-
-        itemToEdit.innerHTML = edditedItem;
-
-        
-
-        
-    };
-
-
-
-    function blankError() {
-
-        let itemLength = document.getElementById('itemtomanipulate').value;
-
-        if(itemLength.value.lenght == 0) {
-
-            alert('you cant leave this blank')
-
-            return false;
-
-
-
-        }
-
-        
-    }
