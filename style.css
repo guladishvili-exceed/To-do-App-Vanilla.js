@@ -1,0 +1,40 @@
+* {
+    font-family: cursive;
+
+    font-size: 1.5rem;
+
+
+    
+}
+
+
+button {
+    margin-left:5%;
+}
+
+.container {
+    border:1px solid black;
+    width:75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.flex-box-container {
+    display: block;
+    border: 1px solid black;
+    padding: 10%;
+    flex-wrap: wrap;
+    justify-content: center;
+    background:  #3D9970;
+    
+}
+
+
+.flex-box-container div {
+    display:flex;
+    padding: 10px;
+    border: 1px solid black;
+    align-items: center;
+}
+
+
