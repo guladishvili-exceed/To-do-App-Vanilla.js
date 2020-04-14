@@ -14,7 +14,17 @@ function userInput() {
 
     let edittBtn = document.createElement('button')
 
+    let newItem = document.createElement('li')
+
+    let checkbox = document.createElement('input')
+
+    newItem.setAttribute('id','itemtomanipulate')
+
     edittBtn.setAttribute('id','editb')
+
+    checkbox.setAttribute('type','checkbox')
+    
+    newItem.setAttribute('id','itemtomanipulate')
 
     edittBtn.innerHTML = 'Edit'
 
@@ -26,16 +36,13 @@ function userInput() {
     
 
     let editL1 = edittBtn.addEventListener('click',function(){
-        editLi()
+            
+        editLI()
+   
+        
+
     });
     
-    let checkbox = document.createElement('input')
-
-    checkbox.setAttribute('type','checkbox')
-
-    let newItem = document.createElement('li')
-
-    newItem.setAttribute('id','itemtomanipulate')
 
     newItem.appendChild(text)
 
@@ -52,11 +59,15 @@ function userInput() {
         
     )
 
-    storage.push(newItem)
+    storage.push(item)
     console.log(storage)
 }
 
     
+
+function editLI() {
+
+}
 
 
 
@@ -81,26 +92,7 @@ function removeEl() {
 
 
 
-    
-function editLi() {
-   
-    let inputText = document.getElementById('todoInput')
 
-    let target = document.getElementsByTagName('li')
-
-    let items=storage;
-
-    let btn=document.getElementById('editb')
-
-    
-    items.indexOf[target] = inputText.innerText 
-
-
-
-    
-    
-    
-}
 
 
 
