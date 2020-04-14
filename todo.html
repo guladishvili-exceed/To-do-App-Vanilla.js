@@ -6,27 +6,26 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <title>Document</title>
+    <title>To Do App</title>
 </head>
 <body>
-   
-   <div class='container' id='todoForm'>
-        <h1>To Do List App</h1>
-       <input id='todoInput'>
-       <button type='button' class='btn btn-primary' onclick='todoList()'>Add</button>
-       
-       
+    <div class="container">
+        <div id='userInput' class='flex-box-container'>
+            <h1 class='text-white display-4'>To Do List</h1>
+            <input id='todoInput' placeholder="What to do?">
+            <button class='btn btn-primary' id='addBtn' onclick='userInput()'>Add</button>
+            <button class='butn btn-danger' id='clrBtn'  onclick='userClr()'>Clear</button>
+            <input id='inputtoEdit' placeholder="How to change?"> 
+            <button class='butn btn-danger' id='clrBtn'  onclick='userClr()'>Clear</button>
+            <ol id="item-list">
 
-       <ol id='todoList'>
-        <li>Walkies</li>
-        <li>Gym</li>
+            </ol>
+        </div>
+
+    </div>
+
     
-       </ol>
-   </div>
-   
-    
-    
-        
+
     
     
     
