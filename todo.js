@@ -1,47 +1,109 @@
 
 
-function todoList() {
-	
-    let item    = document.getElementById('todoInput').value
-	
-	let text    = document.createTextNode(item)
-	
-    let newItem = document.createElement('li')
+let storage=[]
 
-    newItem.setAttribute('id','itemtomanipulate')
+
+
+function userInput() {
+
+    let item = document.getElementById('todoInput').value
+
+    let text = document.createTextNode(item)
+
+    let dltBtn = document.createElement('button')
+
+    let edittBtn = document.createElement('button')
+
+    edittBtn.setAttribute('id','editb')
+
+    edittBtn.innerHTML = 'Edit'
+
+    dltBtn.innerHTML = 'Remove'
+
+    let dltBtnRm = dltBtn.addEventListener('click',function(){
+        removeEl()
+    });
+    
+
+    let editL1 = edittBtn.addEventListener('click',function(){
+        editLi()
+    });
     
     let checkbox = document.createElement('input')
 
     checkbox.setAttribute('type','checkbox')
 
-    let dltBtn = document.createElement('button');
+    let newItem = document.createElement('li')
 
-    dltBtn.innerHTML='Remove'
-
-    dltBtn.addEventListener('click',removeBtn)
-
-    newItem.appendChild(dltBtn)
-    
-    newItem.appendChild(checkbox)
+    newItem.setAttribute('id','itemtomanipulate')
 
     newItem.appendChild(text)
-    
-    
-   
-    
+
+    newItem.appendChild(checkbox)
+
+    newItem.appendChild(edittBtn)
+
+    newItem.appendChild(dltBtn)
+
     if (item === '') {
-        alert('Dont leave This Blank!')
-    } else { 
-        document.getElementById('todoList').appendChild(newItem)
+        alert('Cant be blank!');
+    } else (
+        document.getElementById('item-list').appendChild(newItem)
         
+    )
 
-    }
+    storage.push(newItem)
+    console.log(storage)
+}
+
+    
+
+
+
+function userClr() {
+
+    let clrL = document.getElementById('item-list')
+
+    clrL.innerHTML = ''
+
+
 }
 
 
-function removeBtn() {
-    let itemToRemove = document.getElementById('itemtomanipulate');
-    itemToRemove.parentNode.removeChild(itemToRemove);
 
+function removeEl() {
+
+    let removeItem = document.getElementById('itemtomanipulate');
+
+    removeItem.parentNode.removeChild(removeItem);
+    
 }
+
+
+
+    
+function editLi() {
+   
+    let inputText = document.getElementById('todoInput')
+
+    let target = document.getElementsByTagName('li')
+
+    let items=storage;
+
+    let btn=document.getElementById('editb')
+
+    
+    items.indexOf[target] = inputText.innerText 
+
+
+
+    
+    
+    
+}
+
+
+
+
+
 
