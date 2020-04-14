@@ -1,88 +1,63 @@
-
-
-let storage=[]
-
-
+let storage = [];
 
 function userInput() {
+  let item = document.getElementById("todoInput").value;
+  let text = document.createTextNode(item);
+  let dltBtn = document.createElement("button");
+  let edittBtn = document.createElement("button");
+  let newItem = document.createElement("label");
+  let checkbox = document.createElement("input");
+  let editInput = document.createElement("input");
 
-    let item = document.getElementById('todoInput').value
-    let text = document.createTextNode(item)
-    let dltBtn = document.createElement('button')
-    let edittBtn = document.createElement('button')
-    let newItem = document.createElement('li')
-    let checkbox = document.createElement('input')
+  editInput.setAttribute("type", "text");
+  editInput.setAttribute("id", "editInput");
+  newItem.setAttribute("id", "itemtomanipulate");
+  edittBtn.setAttribute("id", "editb");
+  checkbox.setAttribute("type", "checkbox");
+  newItem.setAttribute("id", "itemtomanipulate");
+  edittBtn.innerHTML = "Edit";
+  dltBtn.innerHTML = "Remove";
 
-    newItem.setAttribute('id','itemtomanipulate')
-    edittBtn.setAttribute('id','editb')
-    checkbox.setAttribute('type','checkbox')
-    newItem.setAttribute('id','itemtomanipulate')
-    edittBtn.innerHTML = 'Edit'
-    dltBtn.innerHTML = 'Remove'
+  let dltBtnRm = dltBtn.addEventListener("click", function () {
+    removeEl();
+  });
 
-    let dltBtnRm = dltBtn.addEventListener('click',function(){
-        removeEl()
-    });
-    
+  let editL1 = edittBtn.addEventListener("click", function () {
+    editLI();
+  });
 
-    let editL1 = edittBtn.addEventListener('click',function(){
-            
-        editLI()
-   
-        
+  newItem.appendChild(text);
+  newItem.appendChild(checkbox);
+  newItem.appendChild(edittBtn);
+  newItem.appendChild(dltBtn);
+  newItem.appendChild(editInput);
 
-    });
-    
+  if (item === "") {
+    alert("Cant be blank!");
+  } else document.getElementById("item-list").appendChild(newItem);
 
-    newItem.appendChild(text)
-    newItem.appendChild(checkbox)
-    newItem.appendChild(edittBtn)
-    newItem.appendChild(dltBtn)
-
-    if (item === '') {
-        alert('Cant be blank!');
-    } else (
-        document.getElementById('item-list').appendChild(newItem)
-        
-    )
-
-    storage.push(item)
-    console.log(storage)
+  storage.push(item);
+  console.log(storage);
 }
-
-    
 
 function editLI() {
+  let getinPUT = document.getElementById("editInput");
 
+  let newItem = this.parentNode;
+
+  let label = document.getElementById("label");
+
+  label.innerText = getinPUT.value;
 }
-
-
 
 function userClr() {
+  let clrL = document.getElementById("item-list");
 
-    let clrL = document.getElementById('item-list')
-
-    clrL.innerHTML = ''
-
-
+  clrL.innerHTML = "";
 }
-
-
 
 function removeEl() {
+  let removeItem = document.getElementById("itemtomanipulate");
 
-    let removeItem = document.getElementById('itemtomanipulate');
-
-    removeItem.parentNode.removeChild(removeItem);
-    
+  removeItem.parentNode.removeChild(removeItem);
 }
-
-
-
-
-
-
-
-
-
-
