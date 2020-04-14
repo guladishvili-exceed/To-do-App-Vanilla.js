@@ -5,16 +5,15 @@ function userInput() {
   let text = document.createTextNode(item);
   let dltBtn = document.createElement("button");
   let edittBtn = document.createElement("button");
-  let newItem = document.createElement("label");
+
+  let newItem = document.createElement("li");
   let checkbox = document.createElement("input");
   let editInput = document.createElement("input");
 
   editInput.setAttribute("type", "text");
   editInput.setAttribute("id", "editInput");
   newItem.setAttribute("id", "itemtomanipulate");
-  edittBtn.setAttribute("id", "editb");
   checkbox.setAttribute("type", "checkbox");
-  newItem.setAttribute("id", "itemtomanipulate");
   edittBtn.innerHTML = "Edit";
   dltBtn.innerHTML = "Remove";
 
@@ -26,6 +25,7 @@ function userInput() {
     editLI();
   });
 
+  
   newItem.appendChild(text);
   newItem.appendChild(checkbox);
   newItem.appendChild(edittBtn);
@@ -43,11 +43,9 @@ function userInput() {
 function editLI() {
   let getinPUT = document.getElementById("editInput");
 
-  let newItem = this.parentNode;
+  let changeInput = document.getElementById("toDoInput").value;
 
-  let label = document.getElementById("label");
-
-  label.innerText = getinPUT.value;
+  changeInput.innerText = getinPUT.value;
 }
 
 function userClr() {
