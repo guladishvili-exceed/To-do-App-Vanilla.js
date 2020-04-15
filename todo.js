@@ -1,61 +1,61 @@
-let storage = [];
 
-function userInput() {
+let storage = []
+
+function addItem() {
   let item = document.getElementById("todoInput").value;
+
   let text = document.createTextNode(item);
-  let dltBtn = document.createElement("button");
-  let edittBtn = document.createElement("button");
+  let newText = document.createElement("li");
+  newText.setAttribute("id",'innerLi');
+  let dltButton = document.createElement("button");
+  let edtButton = document.createElement('button')
 
-  let newItem = document.createElement("li");
-  let checkbox = document.createElement("input");
-  let editInput = document.createElement("input");
 
-  editInput.setAttribute("type", "text");
-  editInput.setAttribute("id", "editInput");
-  newItem.setAttribute("id", "itemtomanipulate");
-  checkbox.setAttribute("type", "checkbox");
-  edittBtn.innerHTML = "Edit";
-  dltBtn.innerHTML = "Remove";
-
-  let dltBtnRm = dltBtn.addEventListener("click", function () {
-    removeEl();
+  dltButton.innerText = "Delete";
+  dltButton.addEventListener("click", function () {
+    removeItem();
   });
 
-  let editL1 = edittBtn.addEventListener("click", function () {
-    editLI();
-  });
+  edtButton.innerText = 'Edit'
+  edtButton.addEventListener('click',function() {
+    newItem();
+  })
 
   
-  newItem.appendChild(text);
-  newItem.appendChild(checkbox);
-  newItem.appendChild(edittBtn);
-  newItem.appendChild(dltBtn);
-  newItem.appendChild(editInput);
-
+  newText.appendChild(text);
+  newText.appendChild(dltButton);
+  newText.appendChild(edtButton)
   if (item === "") {
-    alert("Cant be blank!");
-  } else document.getElementById("item-list").appendChild(newItem);
-
-  storage.push(item);
-  console.log(storage);
+    alert("Cant be Blank");
+  } else {
+    document.getElementById("item-list").appendChild(newText);
+  }
+  storage.push(item)
+  console.log(storage)
 }
 
-function editLI() {
-  let getinPUT = document.getElementById("editInput");
 
-  let changeInput = document.getElementById("toDoInput").value;
 
-  changeInput.innerText = getinPUT.value;
+
+
+
+function clrItem() {
+  let clr = document.getElementById("item-list");
+
+  clr.innerHTML = "";
 }
 
-function userClr() {
-  let clrL = document.getElementById("item-list");
+function removeItem() {
+  let rmvItem = document.getElementById("innerLi");
 
-  clrL.innerHTML = "";
+  rmvItem.parentNode.removeChild(rmvItem);
 }
 
-function removeEl() {
-  let removeItem = document.getElementById("itemtomanipulate");
 
-  removeItem.parentNode.removeChild(removeItem);
+function newItem() {
+
+  document.getElementById('innerLi')  .contentEditable = true;
+
+
 }
+
