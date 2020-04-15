@@ -54,7 +54,7 @@ function addItem() {
 
 
 function clrItem() {
-  let clr = document.getElementById("");
+  let clr = document.getElementById("item-list");
 
   clr.innerHTML = "";
 }
