@@ -46,7 +46,7 @@ var createNewTaskElement=function(taskString){
 
 
 var addTask=function(){
-	console.log("Add Task...");
+
 	
 	var listItem=createNewTaskElement(taskInput.value);
 
@@ -63,8 +63,7 @@ var addTask=function(){
 
 
 var editTask=function(){
-console.log("Edit Task...");
-console.log("Change 'edit' to 'save'");
+
 
 
 var listItem=this.parentNode;
@@ -90,7 +89,7 @@ var containsClass=listItem.classList.contains("editMode");
 
 
 var deleteTask=function(){
-		console.log("Delete Task...");
+	
 
 		var listItem=this.parentNode;
 		var ul=listItem.parentNode;
@@ -102,7 +101,7 @@ var deleteTask=function(){
 
 
 var taskCompleted=function(){
-		console.log("Complete Task...");
+	
 	
 	
 	var listItem=this.parentNode;
@@ -113,7 +112,7 @@ var taskCompleted=function(){
 
 
 var taskIncomplete=function(){
-		console.log("Incomplete Task...");
+		
 
 		var listItem=this.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
@@ -130,7 +129,7 @@ addButton.onclick=addTask;
 
 
 var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
-	console.log("bind list item events");
+
 
 	var checkBox=taskListItem.querySelector("input[type=checkbox]");
 	var editButton=taskListItem.querySelector("button.edit");
