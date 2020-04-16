@@ -69,7 +69,7 @@ let taskCompleted = function () {
   bindTaskEvents(listItem, taskIncomplete);
 };
 
-var taskIncomplete = function () {
+let taskIncomplete = function () {
   listItem = this.parentNode;
   incompleteTaskHolder.appendChild(listItem);
   bindTaskEvents(listItem, taskCompleted);
