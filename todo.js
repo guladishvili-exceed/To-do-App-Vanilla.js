@@ -48,17 +48,17 @@ let addTask = function () {
   bindTaskEvents(listItem);
 };
 
-let addEnter = function() {
-  taskInput.addEventListener('keyup',function(event){
-    if (event.code === 13) {
 
-      event.preventDefault();
+let getInput = document.getElementById('new-task')
+getInput.addEventListener('keyup',function(event){
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("add").click();
+   }
+})
 
-      addTask();
-    }
-  })
 
-}
+
 
 let editTask = function () {
   listItem = this.parentNode;
@@ -74,7 +74,10 @@ let editTask = function () {
   }
 
   listItem.classList.toggle("editMode");
+  
 };
+
+
 
 let deleteTask = function () {
   listItem = this.parentNode;
@@ -94,12 +97,15 @@ let taskIncomplete = function () {
 addButton.onclick = addTask;
 
 
+
+
 let bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   checkBox = taskListItem.querySelector("input[type=checkbox]");
   editButton = taskListItem.querySelector("button.edit");
   deleteButton = taskListItem.querySelector("button.delete");
 
-  taskInput.onkeyup = addEnter;
+  
+  
 
   editButton.onclick = editTask;
 
