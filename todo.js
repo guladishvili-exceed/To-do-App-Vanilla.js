@@ -10,7 +10,7 @@ let editButton = document.createElement("button");
 let deleteButton = document.createElement("button");
 let editInput = document.createElement("input");
 
-var createNewTaskElement = function (taskString) {
+let createNewTaskElement = function (taskString) {
   label.innerText = taskString;
 
   checkBox.type = "checkbox";
