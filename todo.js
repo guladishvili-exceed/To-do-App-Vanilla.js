@@ -2,15 +2,21 @@ let taskInput = document.getElementById("new-task");
 let addButton = document.getElementsByTagName("button")[0];
 let incompleteTaskHolder = document.getElementById("incomplete-tasks");
 let completedTasksHolder = document.getElementById("completed-tasks");
-let listItem = document.createElement("li");
+let listItem;
 
-let checkBox = document.createElement("input");
-let label = document.createElement("label");
-let editButton = document.createElement("button");
-let deleteButton = document.createElement("button");
-let editInput = document.createElement("input");
+let checkBox;
+let label;
+let editButton;
+let deleteButton;
+let editInput;
 
 let createNewTaskElement = function (taskString) {
+  listItem = document.createElement("li");
+  checkBox = document.createElement("input");
+  label = document.createElement("label");
+  editButton = document.createElement("button");
+  deleteButton = document.createElement("button");
+  editInput = document.createElement("input");
   label.innerText = taskString;
 
   checkBox.type = "checkbox";
