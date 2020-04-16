@@ -9,23 +9,23 @@
     <title>To Do App</title>
 </head>
 <body>
-    
-    <div id='container'>
-        <div class="flex-box-container">
+    <div class="container">
+        <p>
+          <label for="new-task">Add Item</label><input id="new-task" type="text" required><button >Add</button>
+        </p>
+        
+        <h3>Todo</h3>
+        <ul id="incomplete-tasks">
+          <li><input type="checkbox"><label>Walk Pupper</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+          <li class="editMode"><input type="checkbox"><label>Code</label><input type="text" value="Go Shopping"><button class="edit">Edit</button><button class="delete">Delete</button></li>
           
-            <input type='textInput' id='todoInput' placeholder="Enter activity...">
-            <button class='btn btn-primary' id='add' onclick='addItem()'>Add</button>
-            <button class='btn btn-danger' id='clrAll' onclick='clrItem()'>Clear</button>
-
-            <h3 class='display-4'>To Do List</h3>
-            <ol id='item-list'>
-            </ol>
-
-            <h3 class='display-4'>Complete List</h3>
-            <ol id='finish-list'></ol>
-        </div>
-    </div>
-
+        </ul>
+        
+        <h3>Completed</h3>
+        <ul id="completed-tasks">
+          <li><input type="checkbox" checked><label>Scream because button is not working</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+        </ul>
+      </div>
     
     
     
