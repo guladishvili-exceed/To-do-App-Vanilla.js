@@ -34,6 +34,7 @@ let createNewTaskElement = function (taskString) {
   listItem.appendChild(editInput);
   listItem.appendChild(editButton);
   listItem.appendChild(deleteButton);
+  
   return listItem;
 };
 
@@ -46,6 +47,7 @@ let addTask = function () {
     document.getElementById("incomplete-tasks").appendChild(listItem);
   }
   bindTaskEvents(listItem);
+  listItem.querySelector('label').addEventListener('dblclick',editButton);
 };
 
 
@@ -73,10 +75,10 @@ let editTask = function () {
     editInput.value = label.innerText;
   }
 
+
   listItem.classList.toggle("editMode");
   
 };
-
 
 
 let deleteTask = function () {
@@ -99,12 +101,12 @@ addButton.onclick = addTask;
 
 
 
+
 let bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   checkBox = taskListItem.querySelector("input[type=checkbox]");
   editButton = taskListItem.querySelector("button.edit");
   deleteButton = taskListItem.querySelector("button.delete");
-
-  
+  listItem = taskListItem.querySelector('li')
   
 
   editButton.onclick = editTask;
