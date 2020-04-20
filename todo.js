@@ -2,10 +2,9 @@ let taskInput = document.getElementById("new-task");
 let addButton = document.getElementsByTagName("button")[0];
 addButton.setAttribute('id','add')
 let incompleteTaskHolder = document.getElementById("incomplete-tasks");
-let completedTasksHolder = document.getElementById("completed-tasks");
-let listItem;
 
-let checkBox;
+
+let listItem;
 let label;
 let editButton;
 let deleteButton;
@@ -29,17 +28,22 @@ let createNewTaskElement = function (taskString) {
   deleteButton.innerText = "Delete";
   deleteButton.className = "delete";
 
+  
   listItem.appendChild(checkBox);
   listItem.appendChild(label);
   listItem.appendChild(editInput);
   listItem.appendChild(editButton);
   listItem.appendChild(deleteButton);
+  
+  
 
   return listItem;
 };
 
 let addTask = function () {
   listItem = createNewTaskElement(taskInput.value);
+
+  
 
   if (listItem === "") {
     alert("This field cant be empty");
@@ -77,10 +81,14 @@ let editTask = function () {
     editInput.value = label.innerText;
   }
 
-
   listItem.classList.toggle("editMode");
+
   
 };
+
+
+
+
 
 
 let deleteTask = function () {
@@ -104,19 +112,20 @@ addButton.onclick = addTask;
 
 
 
-let bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
-  checkBox = taskListItem.querySelector("input[type=checkbox]");
+
+let bindTaskEvents = function (taskListItem) {
   editButton = taskListItem.querySelector("button.edit");
   deleteButton = taskListItem.querySelector("button.delete");
-  listItem = taskListItem.querySelector('li')
+  listItem = taskListItem.querySelector('label')
+
   
-  listItem.addEventListener('dblclick',()=>editButton.click());
+
+  listItem.onclick = editTask;
 
   editButton.onclick = editTask;
 
   deleteButton.onclick = deleteTask;
 
-  checkBox.onchange = checkBoxEventHandler;
 };
 
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
