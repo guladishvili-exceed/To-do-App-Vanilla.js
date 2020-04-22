@@ -58,7 +58,6 @@ let newPage = function() {
     })
     let pageCount = Math.ceil(ul.getElementsByTagName('li').length / 10)
     console.log(pageCount)
-    pageNew.innerText = pageCount;
     pageUL.appendChild(pageNew)
     
   }
