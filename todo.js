@@ -47,13 +47,18 @@ getInput.addEventListener('keyup',function(event){
 
 let newPage = function() {
   let ul=document.getElementById('incomplete-tasks')
-  if (ul.getElementsByTagName('li').length === 5) {
+  if (ul.getElementsByTagName('li').length == 5) {
+    ul.style.display = 'none'
     let pageUL = document.getElementById('pagination-demo')
     let pageNew = document.createElement('button')
     pageNew.addEventListener('click',function(){
-      ul.getElementsByTagName('li').display.style === 'none';
+      if(ul.style.display = 'none') {
+        ul.style.display ='block'
+      } 
     })
-    pageNew.innerText = '1'
+    let pageCount = Math.ceil(ul.getElementsByTagName('li').length / 10)
+    console.log(pageCount)
+    pageNew.innerText = pageCount;
     pageUL.appendChild(pageNew)
     
   }
