@@ -8,8 +8,10 @@ let label;
 let editButton;
 let deleteButton;
 let editInput;
+let pageUL;
+let items;
 let checkBox;
-let pageCount=1;
+let pageCount= 1;
 let currentCount = 1;
 let createNewTaskElement = function (taskString) {
   listItem = document.createElement("li");
@@ -36,8 +38,9 @@ let addTask = function () {
   listItem = createNewTaskElement(taskInput.value);
   document.getElementById("incomplete-tasks").appendChild(listItem);
   console.log(clickCount)
+  pageNumber();
+  
   bindTaskEvents(listItem,editButton);
-  newPage();
 };
 let getInput = document.getElementById('new-task');
 getInput.addEventListener('keyup',function(event){
@@ -47,29 +50,37 @@ getInput.addEventListener('keyup',function(event){
    }
 });
 
-let newPage = function() {
-  let pageUL = document.getElementById('incomplete-tasks')
-  let paginationD = document.getElementById('pagination')
-  let items = pageUL.getElementsByTagName('li')
-  
-  if (items.length % 5 === 0) {
-    let newButton = document.createElement('button')
-    for ( let i = 0; i < items.length; i++){
+let pageNumber = function() {
+  pageUL = document.getElementById('incomplete-tasks')
+  items = pageUL.querySelectorAll('li')
+  items.forEach((e, i) => {
+    e.setAttribute("class",Math.ceil(items.length / 10));
+  });
+  console.log(items)
+  for (let i = 0; i < items.length; i++) {
+    if (items.length % 5 === 0 ){
       items[i].style.display = 'none'
-      newButton.addEventListener('click',function(){
-        if(items[i].style.display == 'none'){
-          items[i].style.display = ''
-        } else {items[i].style.display = 'none'}
-      })
-      }
-    let pageCount = Math.ceil(items.length / 5)
-    newButton.innerText = pageCount;
-    paginationD.appendChild(newButton)
+    }
+
   }
- 
-
-
+  if (items.length % 5 === 0) {
+    let pageButton = document.createElement('button')
+    pageButton.setAttribute('id','pageButton')
+    pageCount = Math.ceil(items.length / 5)
+    pageButton.innerText = pageCount;
+    pageButton.addEventListener('click',function(){                                      
+      for (let i = 0; i < items.length; i++){
+        if(items[i].className === pageButton.innerText){
+          items[i].style.display = 'block'
+        }
+      };
+    })
+    pageUL.appendChild(pageButton)
+  }
 }
+
+
+
 let editTask = function () {
   listItem = this.parentNode;
   editInput = listItem.querySelector("input[type=text]");
