@@ -46,28 +46,28 @@ getInput.addEventListener('keyup',function(event){
 });
 
 let newPage = function() {
-  let clmnSize = 5;
-  let startRow = 0;
-  listItem = document.querySelector('li')
   let pageUL = document.getElementById('incomplete-tasks')
-  let forButtons = document.getElementById('pagination-demo')
-  for (let i = 0; i < listItem.length; i++) {
-    if (listItem.length % 5 === 0) {
-      let pageButton = document.createElement('button')
-      pageButton.addEventListener('click',function(){
-        if (pageUL.style.display == '') {
-          pageUL.style.display = 'none'
-        } else {pageUL.style.display = ''}
+  let paginationD = document.getElementById('pagination')
+  let items = pageUL.getElementsByTagName('li')
+  
+  if (items.length % 5 === 0) {
+    let newButton = document.createElement('button')
+    for ( let i = 0; i < items.length; i++){
+      items[i].style.display = 'none'
+      newButton.addEventListener('click',function(){
+        if(items[i].style.display == 'none'){
+          items[i].style.display = ''
+        } else {items[i].style.display = 'none'}
       })
-      let pageCount = Math.ceil(list.length / 5 )
-      pageButton.innerText = pageCount;
-      forButtons.appendChild(pageButton)
-    }
+      }
+    let pageCount = Math.ceil(items.length / 5)
+    newButton.innerText = pageCount;
+    paginationD.appendChild(newButton)
   }
-  }
+ 
 
 
-
+}
 let editTask = function () {
   listItem = this.parentNode;
   editInput = listItem.querySelector("input[type=text]");
