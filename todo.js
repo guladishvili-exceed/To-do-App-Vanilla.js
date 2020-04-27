@@ -9,6 +9,8 @@ let editButton;
 let deleteButton;
 let editInput;
 let checkBox;
+let pageCount;
+let currentCount;
 let createNewTaskElement = function (taskString) {
   listItem = document.createElement("li");
   checkBox = document.createElement("input");
