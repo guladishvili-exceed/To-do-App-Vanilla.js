@@ -1,8 +1,8 @@
-let taskInput = document.getElementById("new-task");
-let addButton = document.getElementsByTagName("button")[0];
+let taskInput = document.getElementById('new-task');
+let paginationBlock = document.getElementById('pagination');
+let addButton = document.getElementsByTagName('button')[0];
 addButton.setAttribute('id','add');
 let incompleteTaskHolder = document.getElementById("incomplete-tasks");
-let clickCount = 0;
 let listItem;
 let label;
 let editButton;
@@ -12,7 +12,48 @@ let pageUL;
 let items;
 let checkBox;
 let pageCount= 1;
-let currentCount = 1;
+let currentPage = 1;
+const setPageCount = () => {
+  const items = [...incompleteTaskHolder.children];
+  console.log(items)
+  pageCount = Math.ceil(items.length / 5);
+};
+setPageCount();
+const renderPagination = () => {
+  paginationBlock.innerHTML = '';
+  for (let i = 1; i <= pageCount; i++) {
+    
+      let pageBtn = document.createElement('button');
+      pageBtn.addEventListener('click',function(){
+        paginationDisplay();
+      })
+      pageBtn.innerText = i;
+      paginationBlock.append(pageBtn)
+  }
+};
+
+const limitDisplay = () => {
+  let pageItem = document.getElementsByTagName('li')
+  if (pageItem.length % 5 === 0) {
+    for ( let i = 0; i < pageItem.length; i++) {
+      pageItem[i].style.display = 'none'
+    }
+  }
+}
+
+
+const paginationDisplay = () => {
+  items = document.getElementsByTagName('li')
+  for (let i = 0; i < items.length; i++){
+    if (items[i].style.display == 'none') {
+      items[i].style.display = ''
+    } else {items[i].style.display = 'none'}
+  }
+}
+
+
+
+
 let createNewTaskElement = function (taskString) {
   listItem = document.createElement("li");
   checkBox = document.createElement("input");
@@ -36,50 +77,19 @@ let createNewTaskElement = function (taskString) {
 };
 let addTask = function () {
   listItem = createNewTaskElement(taskInput.value);
-  document.getElementById("incomplete-tasks").appendChild(listItem);
-  console.log(clickCount)
-  pageNumber();
-  
+  document.getElementById('incomplete-tasks').appendChild(listItem);
   bindTaskEvents(listItem,editButton);
+  setPageCount();
+  renderPagination();
+  limitDisplay();
 };
 let getInput = document.getElementById('new-task');
-getInput.addEventListener('keyup',function(event){
+getInput.addEventListener('keyup',event => {
   if (event.keyCode === 13) {
     event.preventDefault();
-    document.getElementById("add").click();
+    document.getElementById('add').click();
    }
 });
-
-let pageNumber = function() {
-  pageUL = document.getElementById('incomplete-tasks')
-  items = pageUL.querySelectorAll('li')
-  items.forEach((e, i) => {
-    e.setAttribute("class",Math.ceil(items.length / 10));
-  });
-  console.log(items)
-  for (let i = 0; i < items.length; i++) {
-    if (items.length % 5 === 0 ){
-      items[i].style.display = 'none'
-    }
-
-  }
-  if (items.length % 5 === 0) {
-    let pageButton = document.createElement('button')
-    pageButton.setAttribute('id','pageButton')
-    pageCount = Math.ceil(items.length / 5)
-    pageButton.innerText = pageCount;
-    pageButton.addEventListener('click',function(){                                      
-      for (let i = 0; i < items.length; i++){
-        if(items[i].className === pageButton.innerText){
-          items[i].style.display = 'block'
-        }
-      };
-    })
-    pageUL.appendChild(pageButton)
-  }
-}
-
-
 
 let editTask = function () {
   listItem = this.parentNode;
@@ -99,13 +109,11 @@ let deleteTask = function () {
   ul.removeChild(listItem);
 };
 addButton.onclick = addTask;
-
-
 let bindTaskEvents = function (taskListItem) {
-  editButton = taskListItem.querySelector("button.edit");
+  editButton = taskListItem.querySelector('button.edit');
   deleteButton = taskListItem.querySelector("button.delete");
   listItem = taskListItem.querySelector('label');
-  addButton = taskListItem.querySelector('button.add')
+  addButton = taskListItem.querySelector('button.add');
   listItem.ondblclick = editTask;
   editButton.onclick = editTask;
   deleteButton.onclick = deleteTask;
@@ -113,4 +121,3 @@ let bindTaskEvents = function (taskListItem) {
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
   bindTaskEvents(incompleteTaskHolder.children[i]);
 }
-
