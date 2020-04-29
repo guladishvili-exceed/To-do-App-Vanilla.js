@@ -24,6 +24,7 @@ const renderPagination = () => {
   for (let i = 1; i <= pageCount; i++) {
     
       let pageBtn = document.createElement('button');
+      pageBtn.id = 'pageBtn'
       pageBtn.addEventListener('click',function(){
         paginationDisplay();
       })
@@ -43,12 +44,20 @@ const limitDisplay = () => {
 
 
 const paginationDisplay = () => {
-  items = document.getElementsByTagName('li')
-  for (let i = 0; i < items.length; i++){
-    if (items[i].style.display == 'none') {
-      items[i].style.display = ''
-    } else {items[i].style.display = 'none'}
+  items = document.querySelectorAll('li')
+  let group = Array.from(items)
+  currentPage = document.getElementById('pageBtn').innerText
+  if (currentPage >= 1){
+    for (let i = 0; i < items.length; i++) {
+      const start = (currentPage - 1) * 5 + 1;
+      const end = start + 5;
+      let newGroup = group.slice(start,end)
+      console.log(newGroup)
+      
+      
+    }
   }
+  
 }
 
 
