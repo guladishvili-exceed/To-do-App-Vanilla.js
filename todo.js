@@ -38,6 +38,7 @@ const limitDisplay = () => {
   if (pageItem.length % 5 === 0) {
     for ( let i = 0; i < pageItem.length; i++) {
       pageItem[i].style.display = 'none'
+      currentPage+=1;
     }
   }
 }
@@ -46,13 +47,15 @@ const limitDisplay = () => {
 const paginationDisplay = () => {
   items = document.querySelectorAll('li')
   let group = Array.from(items)
-  currentPage = document.getElementById('pageBtn').innerText
+  let buttonPage = document.getElementById('pageBtn')
+  buttonPage.innerHTML = currentPage;
   if (currentPage >= 1){
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < currentPage; i++) {
       const start = (currentPage - 1) * 5 + 1;
       const end = start + 5;
       let newGroup = group.slice(start,end)
       console.log(newGroup)
+      
       
       
     }
