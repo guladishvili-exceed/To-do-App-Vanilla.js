@@ -38,33 +38,45 @@ const limitDisplay = () => {
   if (pageItem.length % 5 === 0) {
     for ( let i = 0; i < pageItem.length; i++) {
       pageItem[i].style.display = 'none'
-      currentPage+=1;
+      currentPage++;
     }
+    
+    
+
   }
 }
 
 
 const paginationDisplay = () => {
-  items = document.querySelectorAll('li')
-  let group = Array.from(items)
-  let buttonPage = document.getElementById('pageBtn')
-  buttonPage.innerHTML = currentPage;
-  if (currentPage >= 1){
-    for (let i = 0; i < currentPage; i++) {
-      const start = (currentPage - 1) * 5 + 1;
-      const end = start + 5;
-      let newGroup = group.slice(start,end)
-      console.log(newGroup)
-      
-      
-      
-    }
-  }
+  const items = [...incompleteTaskHolder.children];
   
+  for (let i=0;i < items.length; i++) {
+    elementControl();
+  }
+
+  
+
 }
 
+const elementControl = () => {
+  items = document.getElementById('incomplete-tasks');
+  itemsArr = Array.from(items)
+  console.log(itemsArr)
+  let emptyArr =[]
+  if (currentPage >=1) {
+    const start = (currentPage - 1) * 5 + 1;
+    const end = start + 5;
+    let newArr = itemsArr.slice(start,end)
+    emptyArr.push(newArr)
+    for (let i=0; i < emptyArr.length;i++) {
+      emptyArr[i].classList = currentPage;
+      if (emptyArr[i].classList = currentPage) {
+        emptyArr[i].style.display ='block';
+      }
+    }
 
-
+  }
+}
 
 let createNewTaskElement = function (taskString) {
   listItem = document.createElement("li");
