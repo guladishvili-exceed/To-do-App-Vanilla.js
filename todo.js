@@ -1,9 +1,9 @@
-let taskInput = document.getElementById('new-task');
-let paginationBlock = document.getElementById('pagination');
-let addButton = document.getElementsByTagName('button')[0];
-addButton.setAttribute('id', 'add');
+let taskInput = document.getElementById("new-task");
+let paginationBlock = document.getElementById("pagination");
+let addButton = document.getElementsByTagName("button")[0];
+addButton.setAttribute("id", "add");
 let incompleteTaskHolder = document.getElementById("incomplete-tasks");
-let paginationHolder = document.getElementById('pagination')
+let paginationHolder = document.getElementById("pagination");
 let listItem;
 let label;
 let editButton;
@@ -16,60 +16,47 @@ let deleteCount = 0;
 const setPageCount = () => {
   const items = [...incompleteTaskHolder.children];
   pageCount = Math.ceil(items.length / 5);
+
 };
 setPageCount();
 const renderPagination = () => {
-  paginationBlock.innerHTML = '';
+  let ul = document.getElementById("incomplete-tasks");
+  paginationBlock.innerHTML = "";
   for (let i = 1; i <= pageCount; i++) {
-    let pageBtn = document.createElement('button');
-    pageBtn.id = 'pageBtn';
-    pageBtn.addEventListener('click',  () => {
+    let pageBtn = document.createElement("button");
+    pageBtn.id = "pageBtn";
+    pageBtn.addEventListener("click", () => {
       currentPage = i;
       paginationDisplay();
     });
+    
     pageBtn.innerText = i;
-    paginationBlock.append(pageBtn)
+
+    paginationBlock.append(pageBtn);
+    
+    
   }
 };
-
-
 const paginationLimit = () => {
   const items = [...incompleteTaskHolder.children];
   if (items.length % 5 === 0) {
-    items.style.display = 'none'
+    items.style.display = "none";
   }
-}
-
+};
 
 const paginationDisplay = () => {
   const items = [...incompleteTaskHolder.children];
   const start = (currentPage - 1) * 5;
-  console.log(start)
   const end = start + 5;
-  
   items.forEach((item, index) => {
     if (index >= start && index < end) {
-      item.style.display = 'block';
+      item.style.display = "block";
     } else {
-      item.style.display = 'none';
-    } 
+      item.style.display = "none";
+    }
   });
+
 };
-
-const deletePage = () => {
-  const items = [...incompleteTaskHolder.children];
-  const start = (currentPage - 1) * 5;
-  
-  if(deleteButton.clicked == true) {
-    items.forEach((item,index) => {
-      if (index === start && item.length === 0) {
-        currentPage.style.display = 'none'
-      }
-    });
-  }
-  
-
-}
 
 let createNewTaskElement = function (taskString) {
   listItem = document.createElement("li");
@@ -94,17 +81,18 @@ let createNewTaskElement = function (taskString) {
 };
 let addTask = function () {
   listItem = createNewTaskElement(taskInput.value);
-  document.getElementById('incomplete-tasks').appendChild(listItem);
+  document.getElementById("incomplete-tasks").appendChild(listItem);
+
   bindTaskEvents(listItem, editButton);
   setPageCount();
   renderPagination();
   paginationDisplay();
 };
-let getInput = document.getElementById('new-task');
-getInput.addEventListener('keyup', event => {
+let getInput = document.getElementById("new-task");
+getInput.addEventListener("keyup", (event) => {
   if (event.keyCode === 13) {
     event.preventDefault();
-    document.getElementById('add').click();
+    document.getElementById("add").click();
   }
 });
 let editTask = function () {
@@ -121,18 +109,19 @@ let editTask = function () {
 };
 let deleteTask = function () {
   listItem = this.parentNode;
-
   ul = listItem.parentNode;
   ul.removeChild(listItem);
-  deletePage();
+  paginationDisplay();
+
   
+ 
 };
 addButton.onclick = addTask;
 let bindTaskEvents = function (taskListItem) {
-  editButton = taskListItem.querySelector('button.edit');
+  editButton = taskListItem.querySelector("button.edit");
   deleteButton = taskListItem.querySelector("button.delete");
-  listItem = taskListItem.querySelector('label');
-  addButton = taskListItem.querySelector('button.add');
+  listItem = taskListItem.querySelector("label");
+  addButton = taskListItem.querySelector("button.add");
   listItem.ondblclick = editTask;
   editButton.onclick = editTask;
   deleteButton.onclick = deleteTask;
