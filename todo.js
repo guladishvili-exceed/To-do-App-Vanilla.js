@@ -1,3 +1,5 @@
+
+
 let taskInput = document.getElementById("new-task");
 let paginationBlock = document.getElementById("pagination");
 let addButton = document.getElementsByTagName("button")[0];
@@ -13,6 +15,7 @@ let checkBox;
 let pageCount = 1;
 let currentPage = 1;
 let deleteCount = 0;
+let storeData = []
 const setPageCount = () => {
   const items = [...incompleteTaskHolder.children];
   pageCount = Math.ceil(items.length / 5);
@@ -20,7 +23,7 @@ const setPageCount = () => {
 };
 setPageCount();
 const renderPagination = () => {
-  let ul = document.getElementById("incomplete-tasks");
+  const items = [...incompleteTaskHolder.children]
   paginationBlock.innerHTML = "";
   for (let i = 1; i <= pageCount; i++) {
     let pageBtn = document.createElement("button");
@@ -38,6 +41,7 @@ const renderPagination = () => {
   }
 };
 const paginationLimit = () => {
+  
   const items = [...incompleteTaskHolder.children];
   if (items.length % 5 === 0) {
     items.style.display = "none";
@@ -50,13 +54,40 @@ const paginationDisplay = () => {
   const end = start + 5;
   items.forEach((item, index) => {
     if (index >= start && index < end) {
-      item.style.display = "block";
+      item.style.display = "block"; 
     } else {
       item.style.display = "none";
+      
     }
   });
-
 };
+
+const sendData = () => {
+  let getValue = document.getElementById('new-task').value
+  axios.post('http://localhost:3000/add', {
+    todo : getValue
+  }).then(response => {
+    console.log(response.data._id)
+  })
+}
+
+
+const getAll = () => {
+  axios.get('http://localhost:3000').then(response => {
+    console.log(response.data)
+  })
+}
+
+const deleteData = () => {
+  listItem = this.parentNode;
+  axios.delete('http://localhost:3000/delete/:id',{
+    _id : listItem._id
+  }).then(response =>{
+    console.log(response.data)
+  })
+
+}
+
 
 let createNewTaskElement = function (taskString) {
   listItem = document.createElement("li");
@@ -82,11 +113,13 @@ let createNewTaskElement = function (taskString) {
 let addTask = function () {
   listItem = createNewTaskElement(taskInput.value);
   document.getElementById("incomplete-tasks").appendChild(listItem);
-
   bindTaskEvents(listItem, editButton);
   setPageCount();
   renderPagination();
   paginationDisplay();
+  sendData();
+  getAll();
+  
 };
 let getInput = document.getElementById("new-task");
 getInput.addEventListener("keyup", (event) => {
@@ -95,6 +128,9 @@ getInput.addEventListener("keyup", (event) => {
     document.getElementById("add").click();
   }
 });
+
+
+
 let editTask = function () {
   listItem = this.parentNode;
   editInput = listItem.querySelector("input[type=text]");
@@ -107,16 +143,20 @@ let editTask = function () {
   }
   listItem.classList.toggle("editMode");
 };
+
 let deleteTask = function () {
   listItem = this.parentNode;
   ul = listItem.parentNode;
   ul.removeChild(listItem);
+  setPageCount();
+  renderPagination();
   paginationDisplay();
-
+  deleteData();
   
- 
 };
+
 addButton.onclick = addTask;
+
 let bindTaskEvents = function (taskListItem) {
   editButton = taskListItem.querySelector("button.edit");
   deleteButton = taskListItem.querySelector("button.delete");
