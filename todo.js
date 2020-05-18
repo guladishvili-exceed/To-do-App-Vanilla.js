@@ -79,7 +79,6 @@ const getAll = () => {
 }
 
 const deleteData = () => {
-  listItem = this.parentNode;
   axios.delete('http://localhost:3000/delete/' + listItem._id).then(response =>{
     console.log(response.data)
   })
