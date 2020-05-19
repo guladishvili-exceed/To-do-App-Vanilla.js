@@ -64,10 +64,10 @@ const paginationDisplay = () => {
 
 const sendData = () => {
   let getValue = document.getElementById('new-task').value
-  axios.post('http://localhost:3000/add', {
-    todo : getValue
-  }).then(response => {
-    console.log(response.data._id)
+  const request = axios.create({
+    baseURL: 'https://localhost:3000/add',
+    timeout: 1000,
+    todo: getValue
   })
 }
 
@@ -77,6 +77,8 @@ const getAll = () => {
     console.log(response.data)
   })
 }
+
+getAll();
 
 const deleteData = () => {
   axios.delete('http://localhost:3000/delete/' + listItem._id).then(response =>{
@@ -115,7 +117,6 @@ let addTask = function () {
   renderPagination();
   paginationDisplay();
   sendData();
-  getAll();
   
 };
 let getInput = document.getElementById("new-task");
