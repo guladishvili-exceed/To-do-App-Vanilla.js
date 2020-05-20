@@ -64,25 +64,35 @@ const paginationDisplay = () => {
 
 const sendData = () => {
   let getValue = document.getElementById('new-task').value
-  const request = axios.create({
-    baseURL: 'https://localhost:3000/add',
-    timeout: 1000,
-    todo: getValue
-  })
+  axios.post('http://localhost:3000/add',{
+  todo : getValue
+}).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err',err);
+})
 }
 
 
 const getAll = () => {
   axios.get('http://localhost:3000').then(response => {
     console.log(response.data)
+  }).then(res => {
+    console.log('res', res);
+  }).catch(err => {
+    console.log('err',err);
   })
 }
 
 getAll();
 
 const deleteData = () => {
-  axios.delete('http://localhost:3000/delete/' + listItem._id).then(response =>{
-    console.log(response.data)
+  axios.delete('http://localhost:3000/delete/',{
+    _id : listItem._id
+  }).then(res => {
+    console.log('res',res)
+  }).catch(err => {
+    console.log('err',err)
   })
 
 }
@@ -149,7 +159,6 @@ let deleteTask = function () {
   setPageCount();
   renderPagination();
   paginationDisplay();
-  deleteData();
   
 };
 
