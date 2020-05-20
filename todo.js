@@ -15,7 +15,7 @@ let checkBox;
 let pageCount = 1;
 let currentPage = 1;
 let deleteCount = 0;
-let storeData = []
+let storeData = [{}]
 const setPageCount = () => {
   const items = [...incompleteTaskHolder.children];
   pageCount = Math.ceil(items.length / 5);
@@ -67,17 +67,18 @@ const sendData = () => {
   axios.post('http://localhost:3000/add',{
   todo : getValue
 }).then(res => {
+  storeData.push({id : res.data._id})
   console.log('res', res);
 }).catch(err => {
   console.log('err',err);
 })
+console.log(storeData)
 }
 
 
 const getAll = () => {
-  axios.get('http://localhost:3000').then(response => {
-    console.log(response.data)
-  }).then(res => {
+  axios.get('http://localhost:3000').then(res => {
+    console.log(res.data)  
     console.log('res', res);
   }).catch(err => {
     console.log('err',err);
@@ -86,16 +87,18 @@ const getAll = () => {
 
 getAll();
 
-const deleteData = () => {
-  axios.delete('http://localhost:3000/delete/',{
-    _id : listItem._id
+
+
+const deleteData = (id) => {
+  axios.delete(`http://localhost:3000/delete/${id}`,{
+    id : storeData
   }).then(res => {
     console.log('res',res)
   }).catch(err => {
     console.log('err',err)
   })
+};
 
-}
 
 
 let createNewTaskElement = function (taskString) {
@@ -148,6 +151,7 @@ let editTask = function () {
     label.innerText = editInput.value;
   } else {
     editInput.value = label.innerText;
+    updateData();
   }
   listItem.classList.toggle("editMode");
 };
@@ -159,6 +163,7 @@ let deleteTask = function () {
   setPageCount();
   renderPagination();
   paginationDisplay();
+  deleteData();
   
 };
 
