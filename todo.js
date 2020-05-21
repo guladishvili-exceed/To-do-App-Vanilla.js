@@ -75,19 +75,28 @@ const sendData = () => {
 console.log(storeData)
 }
 
+const generate = (database) => {
+  database.forEach(todo = () =>{
+    const newlistItem = document.createElement('li')
+
+    newlistItem.textContent = database;
+
+    incompleteTaskHolder.appendChild(newlistItem)
+
+  })
+
 
 const getAll = () => {
-  axios.get('http://localhost:3000').then(res => {
-    console.log(res.data)  
-    console.log('res', res);
+  axios.get('http://localhost:3000/').
+  then(res => {
+    generate(res.data)
+    console.log('res',res)
   }).catch(err => {
-    console.log('err',err);
+    console.log('err',err)
   })
 }
 
 getAll();
-
-
 
 const deleteData = (id) => {
   axios.delete(`http://localhost:3000/delete/${id}`,{
@@ -122,7 +131,7 @@ let createNewTaskElement = function (taskString) {
   listItem.appendChild(deleteButton);
   return listItem;
 };
-let addTask = function () {
+let addTask = function (showData) {
   listItem = createNewTaskElement(taskInput.value);
   document.getElementById("incomplete-tasks").appendChild(listItem);
   bindTaskEvents(listItem, editButton);
