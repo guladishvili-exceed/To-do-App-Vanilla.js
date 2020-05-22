@@ -77,9 +77,11 @@ console.log(storeData)
 
 function createTodoList(datebase) {
   datebase.forEach((todo) => {
+    let getUL = document.getElementById('incomplete-tasks')
     let newItem = document.createElement('li')
-    incompleteTaskHolder.appendChild(newItem)
-    newItem.innerText= todo
+    getUL.append(newItem)
+    newItem.innerText= todo.todo
+     
   })
   
 
@@ -89,7 +91,7 @@ const getAll = () => {
   axios.get('http://localhost:3000/').
   then(res => {
     createTodoList(res.data)
-    console.log('res',res.todo)
+    console.log('res',res)
   }).catch(err => {
     console.log('err',err)
   })
