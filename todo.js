@@ -67,7 +67,7 @@ const sendData = () => {
   axios.post('http://localhost:3000/add',{
   todo : getValue
 }).then(res => {
-  storeData.push({id : res.data._id})
+  storeData.push({id : res.data.id})
   console.log('res', res);
 }).catch(err => {
   console.log('err',err);
@@ -75,22 +75,21 @@ const sendData = () => {
 console.log(storeData)
 }
 
-const generate = (database) => {
-  database.forEach(todo = () =>{
-    const newlistItem = document.createElement('li')
-
-    newlistItem.textContent = database;
-
-    incompleteTaskHolder.appendChild(newlistItem)
-
+function createTodoList(datebase) {
+  datebase.forEach((todo) => {
+    let newItem = document.createElement('li')
+    incompleteTaskHolder.appendChild(newItem)
+    newItem.innerText= todo
   })
+  
 
+}
 
 const getAll = () => {
   axios.get('http://localhost:3000/').
   then(res => {
-    generate(res.data)
-    console.log('res',res)
+    createTodoList(res.data)
+    console.log('res',res.todo)
   }).catch(err => {
     console.log('err',err)
   })
