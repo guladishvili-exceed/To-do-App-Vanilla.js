@@ -7,6 +7,8 @@ addButton.setAttribute("id", "add");
 let incompleteTaskHolder = document.getElementById("incomplete-tasks");
 let paginationHolder = document.getElementById("pagination");
 let listItem;
+let newItem;
+let newLabel;
 let label;
 let editButton;
 let deleteButton;
@@ -23,7 +25,7 @@ const setPageCount = () => {
 };
 setPageCount();
 const renderPagination = () => {
-  const items = [...incompleteTaskHolder.children]
+  const items = [...incompleteTaskHolder.children];
   paginationBlock.innerHTML = "";
   for (let i = 1; i <= pageCount; i++) {
     let pageBtn = document.createElement("button");
@@ -32,12 +34,10 @@ const renderPagination = () => {
       currentPage = i;
       paginationDisplay();
     });
-    
+
     pageBtn.innerText = i;
 
     paginationBlock.append(pageBtn);
-    
-    
   }
 };
 const paginationLimit = () => {
@@ -62,6 +62,52 @@ const paginationDisplay = () => {
   });
 };
 
+
+const createTodoList = (datebase) => {
+  datebase.forEach((todo) => {
+    let getUL = document.getElementById('incomplete-tasks')
+    listItem = document.createElement('li');
+    label = document.createElement('label')
+    label.innerText = todo.todo
+    let checkBox = document.createElement("input");
+    checkBox.setAttribute('type','checkbox')
+    let deleteButton = document.createElement("button");
+    let editButton = document.createElement('button')
+    editButton.innerText = 'Edit'
+    editButton.className = 'edit'
+    editButton.addEventListener('click', () => {
+      editTask(todo);
+      updateData(todo._id);
+    })
+    deleteButton.innerText = "Delete";
+    deleteButton.className = "delete";
+    deleteButton.addEventListener('click',() => {
+      deleteTask(datebase);
+      deleteData(todo._id);
+    });
+    getUL.append(listItem);
+    listItem.append(checkBox)
+    listItem.append(label);
+    listItem.append(editButton);
+    listItem.append(deleteButton);
+    
+
+    
+  });
+}
+
+const getAll = () => {
+  axios.get('http://localhost:3000/').
+  then(res => {
+    createTodoList(res.data)
+    console.log('res',res.data)
+  }).catch(err => {
+    console.log('err',err)
+  })
+}
+
+getAll();
+
 const sendData = () => {
   let getValue = document.getElementById('new-task').value
   axios.post('http://localhost:3000/add',{
@@ -75,40 +121,23 @@ const sendData = () => {
 console.log(storeData)
 }
 
-function createTodoList(datebase) {
-  datebase.forEach((todo) => {
-    let getUL = document.getElementById('incomplete-tasks')
-    let newItem = document.createElement('li')
-    getUL.append(newItem)
-    newItem.innerText= todo.todo
-     
-  })
-  
-
-}
-
-const getAll = () => {
-  axios.get('http://localhost:3000/').
-  then(res => {
-    createTodoList(res.data)
-    console.log('res',res)
-  }).catch(err => {
-    console.log('err',err)
-  })
-}
-
-getAll();
-
 const deleteData = (id) => {
-  axios.delete(`http://localhost:3000/delete/${id}`,{
-    id : storeData
-  }).then(res => {
+  axios.delete(`http://localhost:3000/delete/${id}`).then(res => {
     console.log('res',res)
   }).catch(err => {
     console.log('err',err)
   })
 };
 
+const updateData = (id) => {
+  axios.put(`http://localhost:3000/edit/${id}`,{
+    todo : editInput.value
+  }).then(res => {
+    console.log('res',res)
+  }).catch(err => {
+    console.log('err',err)
+  })
+}
 
 
 let createNewTaskElement = function (taskString) {
@@ -161,19 +190,20 @@ let editTask = function () {
     label.innerText = editInput.value;
   } else {
     editInput.value = label.innerText;
-    updateData();
+    
   }
   listItem.classList.toggle("editMode");
 };
 
-let deleteTask = function () {
-  listItem = this.parentNode;
-  ul = listItem.parentNode;
-  ul.removeChild(listItem);
+let deleteTask = function (stuff) {
+  let getLI = document.getElementsByTagName('li')
+  getLI = this.parentNode;    
+  ul = getLI.parentNode;
+  ul.removeChild(getLI);
   setPageCount();
   renderPagination();
   paginationDisplay();
-  deleteData();
+  
   
 };
 
