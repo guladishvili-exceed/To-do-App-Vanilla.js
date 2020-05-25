@@ -76,7 +76,7 @@ const createTodoList = (datebase) => {
     editButton.innerText = 'Edit'
     editButton.className = 'edit'
     editButton.addEventListener('click', () => {
-      editTask(todo);
+      editTask();
       updateData(todo._id);
     })
     deleteButton.innerText = "Delete";
