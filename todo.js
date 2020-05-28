@@ -67,6 +67,10 @@ const createTodoList = (datebase) => {
   datebase.forEach((todo) => {
     let getUL = document.getElementById('incomplete-tasks')
     listItem = document.createElement('li');
+    listItem.id = todo._id
+    console.log(listItem.id)
+    editInput = document.createElement("input");
+    editInput.type = "text";
     label = document.createElement('label')
     label.innerText = todo.todo
     let checkBox = document.createElement("input");
@@ -76,20 +80,29 @@ const createTodoList = (datebase) => {
     editButton.innerText = 'Edit'
     editButton.className = 'edit'
     editButton.addEventListener('click', () => {
-      editTask();
+      
+      editTask(listItem)
       updateData(todo._id);
     })
     deleteButton.innerText = "Delete";
     deleteButton.className = "delete";
     deleteButton.addEventListener('click',() => {
-      deleteTask(datebase);
+      const removeElement = (elementID) => {
+        let element = document.getElementById(elementID)
+        element.parentNode.removeChild(element)
+        setPageCount();
+        renderPagination();
+        paginationDisplay();
+      }
+      removeElement(todo._id)
       deleteData(todo._id);
     });
     getUL.append(listItem);
-    listItem.append(checkBox)
-    listItem.append(label);
-    listItem.append(editButton);
-    listItem.append(deleteButton);
+    listItem.appendChild(checkBox)
+    listItem.appendChild(label);
+    listItem.appendChild(editInput)
+    listItem.appendChild(editButton);
+    listItem.appendChild(deleteButton);
     
 
     
@@ -181,10 +194,10 @@ getInput.addEventListener("keyup", (event) => {
 
 
 
-let editTask = function () {
+let editTask = function (stuff) {
   listItem = this.parentNode;
   editInput = listItem.querySelector("input[type=text]");
-  label = listItem.querySelector("label");
+  label = stuff.querySelector("label");
   containsClass = listItem.classList.contains("editMode");
   if (containsClass) {
     label.innerText = editInput.value;
@@ -195,11 +208,11 @@ let editTask = function () {
   listItem.classList.toggle("editMode");
 };
 
-let deleteTask = function (stuff) {
-  let getLI = document.getElementsByTagName('li')
-  getLI = this.parentNode;    
-  ul = getLI.parentNode;
-  ul.removeChild(getLI);
+let deleteTask = function (todo) {
+  todo = this.parentNode;
+  console.log(todo)    
+  ul = todo.parentNode;
+  ul.removeChild(todo);
   setPageCount();
   renderPagination();
   paginationDisplay();
