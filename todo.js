@@ -1,236 +1,181 @@
+// let paginationBlock = document.getElementById("pagination");
+let taskHolder = document.getElementById("task-holder");
+const taskInput = document.getElementById("input-task");
+// let pageCount = 1;
+// let currentPage = 1;
+// let deleteCount = 0;
 
+// const setPageCount = () => {
+//   const items = [...taskHolder.children];
+//   pageCount = Math.ceil(items.length / 5);
 
-let taskInput = document.getElementById("new-task");
-let paginationBlock = document.getElementById("pagination");
-let addButton = document.getElementsByTagName("button")[0];
-addButton.setAttribute("id", "add");
-let incompleteTaskHolder = document.getElementById("incomplete-tasks");
-let paginationHolder = document.getElementById("pagination");
-let listItem;
-let newItem;
-let newLabel;
-let label;
-let editButton;
-let deleteButton;
-let editInput;
-let checkBox;
-let pageCount = 1;
-let currentPage = 1;
-let deleteCount = 0;
-let storeData = [{}]
-const setPageCount = () => {
-  const items = [...incompleteTaskHolder.children];
-  pageCount = Math.ceil(items.length / 5);
+// };
+// setPageCount();
+// const renderPagination = () => {
+// 
+//   paginationBlock.innerHTML = "";
+//   for (let i = 1; i <= pageCount; i++) {
+//     let pageBtn = document.createElement("button");
+//     pageBtn.id = "pageBtn";
+//     pageBtn.addEventListener("click", () => {
+//       currentPage = i;
+//       paginationDisplay();
+//     });
 
-};
-setPageCount();
-const renderPagination = () => {
-  const items = [...incompleteTaskHolder.children];
-  paginationBlock.innerHTML = "";
-  for (let i = 1; i <= pageCount; i++) {
-    let pageBtn = document.createElement("button");
-    pageBtn.id = "pageBtn";
-    pageBtn.addEventListener("click", () => {
-      currentPage = i;
-      paginationDisplay();
-    });
+//     pageBtn.innerText = i;
 
-    pageBtn.innerText = i;
+//     paginationBlock.append(pageBtn);
+//   }
+// };
 
-    paginationBlock.append(pageBtn);
-  }
-};
-const paginationLimit = () => {
-  
-  const items = [...incompleteTaskHolder.children];
-  if (items.length % 5 === 0) {
-    items.style.display = "none";
-  }
-};
+// const paginationDisplay = () => {
+//   const items = [...taskHolder.children];
+//   const start = (currentPage - 1) * 5;
+//   const end = start + 5;
+//   items.forEach((item, index) => {
+//     if (index >= start && index < end) {
+//       item.style.display = "block";
+//     } else {
+//       item.style.display = "none";
 
-const paginationDisplay = () => {
-  const items = [...incompleteTaskHolder.children];
-  const start = (currentPage - 1) * 5;
-  const end = start + 5;
-  items.forEach((item, index) => {
-    if (index >= start && index < end) {
-      item.style.display = "block"; 
-    } else {
-      item.style.display = "none";
-      
-    }
-  });
-};
-
-
-const createTodoList = (datebase) => {
-  datebase.forEach((todo) => {
-    let getUL = document.getElementById('incomplete-tasks')
-    listItem = document.createElement('li');
-    listItem.id = todo._id
-    console.log(listItem.id)
-    editInput = document.createElement("input");
-    editInput.type = "text";
-    label = document.createElement('label')
-    label.innerText = todo.todo
-    let checkBox = document.createElement("input");
-    checkBox.setAttribute('type','checkbox')
-    let deleteButton = document.createElement("button");
-    let editButton = document.createElement('button')
-    editButton.innerText = 'Edit'
-    editButton.className = 'edit'
-    editButton.addEventListener('click', () => {
-      
-      editTask(listItem)
-      updateData(todo._id);
-    })
-    deleteButton.innerText = "Delete";
-    deleteButton.className = "delete";
-    deleteButton.addEventListener('click',() => {
-      const removeElement = (elementID) => {
-        let element = document.getElementById(elementID)
-        element.parentNode.removeChild(element)
-        setPageCount();
-        renderPagination();
-        paginationDisplay();
-      }
-      removeElement(todo._id)
-      deleteData(todo._id);
-    });
-    getUL.append(listItem);
-    listItem.appendChild(checkBox)
-    listItem.appendChild(label);
-    listItem.appendChild(editInput)
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
-    
-
-    
-  });
-}
+//     }
+//   });
+// };
 
 const getAll = () => {
-  axios.get('http://localhost:3000/').
-  then(res => {
-    createTodoList(res.data)
-    console.log('res',res.data)
-  }).catch(err => {
-    console.log('err',err)
-  })
-}
+  axios
+    .get("http://localhost:3000/")
+    .then((res) => {
+      console.log("-------Get", res.data);
+      displayData(res.data);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
+};
 
 getAll();
 
 const sendData = () => {
-  let getValue = document.getElementById('new-task').value
-  axios.post('http://localhost:3000/add',{
-  todo : getValue
-}).then(res => {
-  storeData.push({id : res.data.id})
-  console.log('res', res);
-}).catch(err => {
-  console.log('err',err);
-})
-console.log(storeData)
-}
-
-const deleteData = (id) => {
-  axios.delete(`http://localhost:3000/delete/${id}`).then(res => {
-    console.log('res',res)
-  }).catch(err => {
-    console.log('err',err)
-  })
+  axios
+    .post("http://localhost:3000/add", {
+      todo: taskInput.value,
+    })
+    .then((res) => {
+      
+      console.log("res", res);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 };
 
 const updateData = (id) => {
-  axios.put(`http://localhost:3000/edit/${id}`,{
-    todo : editInput.value
-  }).then(res => {
-    console.log('res',res)
-  }).catch(err => {
-    console.log('err',err)
-  })
-}
-
-
-let createNewTaskElement = function (taskString) {
-  listItem = document.createElement("li");
-  checkBox = document.createElement("input");
-  label = document.createElement("label");
-  editButton = document.createElement("button");
-  deleteButton = document.createElement("button");
-  editInput = document.createElement("input");
-  label.innerText = taskString;
-  checkBox.type = "checkbox";
-  editInput.type = "text";
-  editButton.innerText = "Edit";
-  editButton.className = "edit";
-  deleteButton.innerText = "Delete";
-  deleteButton.className = "delete";
-  listItem.appendChild(checkBox);
-  listItem.appendChild(label);
-  listItem.appendChild(editInput);
-  listItem.appendChild(editButton);
-  listItem.appendChild(deleteButton);
-  return listItem;
+  axios
+    .put(`http://localhost:3000/edit/${id}`, {
+      todo: taskInput.value,
+    })
+    .then((res) => {
+      console.log("res", res);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 };
-let addTask = function (showData) {
-  listItem = createNewTaskElement(taskInput.value);
-  document.getElementById("incomplete-tasks").appendChild(listItem);
-  bindTaskEvents(listItem, editButton);
-  setPageCount();
-  renderPagination();
-  paginationDisplay();
-  sendData();
-  
+
+const deleteData = (id) => {
+  axios
+    .delete(`http://localhost:3000/delete/${id}`)
+    .then((res) => {
+      console.log("res", res);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 };
-let getInput = document.getElementById("new-task");
-getInput.addEventListener("keyup", (event) => {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    document.getElementById("add").click();
-  }
-});
 
+const displayData = (todo) => {
+  todo.forEach((todo) => {
+    let listItem = document.createElement("li");
+    listItem.id = todo._id;
 
+    let label = document.createElement("label");
+    label.innerText = todo.todo;
 
-let editTask = function (stuff) {
-  listItem = this.parentNode;
-  editInput = listItem.querySelector("input[type=text]");
-  label = stuff.querySelector("label");
-  containsClass = listItem.classList.contains("editMode");
-  if (containsClass) {
-    label.innerText = editInput.value;
-  } else {
-    editInput.value = label.innerText;
+    let editInput = document.createElement("input");
+    editInput.setAttribute("type", "text");
+    editInput.id = 'editInput'
+
+    let checkBox = document.createElement("input");
+    checkBox.setAttribute("type", "checkbox");
+
+    let addButton = document.getElementById("addBtn");
+    addButton.addEventListener('click', () => {
+      sendData();
+      getOne(todo._id)
+    })
+   
+    let deleteButton = document.createElement("button");
+    deleteButton.innerText = "Delete";
+    deleteButton.addEventListener("click", () => {
+      deleteElement(todo._id);
+      deleteData(todo._id);
+    });
+
+    let editButton = document.createElement("button");
+    editButton.innerText = "Edit";
+    editButton.addEventListener("click", () => {
+      editTask(todo._id);
+    });
+
+    let submitButton = document.createElement("button");
+    submitButton.innerText = "Submit";
+    submitButton.id = "submit";
+    submitButton.style.display = "none";
     
+
+    let cancelButton = document.createElement("button");
+    cancelButton.innerText = "Cancel";
+    cancelButton.style.display = "none";
+
+    taskHolder.appendChild(listItem);
+    listItem.appendChild(checkBox);
+    listItem.appendChild(label);
+    listItem.appendChild(editInput);
+    listItem.appendChild(deleteButton);
+    listItem.appendChild(editButton);
+    listItem.appendChild(submitButton);
+    listItem.appendChild(cancelButton);
+  });
+};
+
+const editTask = (elementID) => {
+  let listItem = this.document.getElementById(elementID);
+  let getEdit = listItem.querySelector("input[type=text]");
+  let getLabel = listItem.querySelector("label");
+  let containsClass = listItem.classList.contains("editMode");
+  if (containsClass) {
+    getLabel.innerText = getEdit.value;
+  } else {
+    getEdit.value = getLabel.innerText;
   }
   listItem.classList.toggle("editMode");
 };
 
-let deleteTask = function (todo) {
-  todo = this.parentNode;
-  console.log(todo)    
-  ul = todo.parentNode;
-  ul.removeChild(todo);
-  setPageCount();
-  renderPagination();
-  paginationDisplay();
-  
-  
+
+const deleteElement = (elementID) => {
+  let element = document.getElementById(elementID);
+  element.parentNode.removeChild(element);
 };
 
-addButton.onclick = addTask;
 
-let bindTaskEvents = function (taskListItem) {
-  editButton = taskListItem.querySelector("button.edit");
-  deleteButton = taskListItem.querySelector("button.delete");
-  listItem = taskListItem.querySelector("label");
-  addButton = taskListItem.querySelector("button.add");
-  listItem.ondblclick = editTask;
-  editButton.onclick = editTask;
-  deleteButton.onclick = deleteTask;
-};
-for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
-  bindTaskEvents(incompleteTaskHolder.children[i]);
-}
+
+
+// let getInput = document.getElementById("new-task");
+// getInput.addEventListener("keyup", (event) => {
+//   if (event.keyCode === 13) {
+//     event.preventDefault();
+//     document.getElementById("add").click();
+//   }
+// });
+
