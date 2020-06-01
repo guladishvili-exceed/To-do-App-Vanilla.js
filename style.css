@@ -105,6 +105,14 @@ body {
     text-decoration: line-through;
     color: #888;
   }
+
+  .show {
+    visibility: visible;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
   
   /* Edit Task */
   ul li input[type=text] {
