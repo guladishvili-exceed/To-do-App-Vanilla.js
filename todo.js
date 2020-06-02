@@ -1,5 +1,8 @@
 let taskHolder = document.getElementById("task-holder");
 const taskInput = document.getElementById("input-task");
+const getClear = document.getElementById('unCheck')
+const getCheckAll = document.getElementById('checkAll')
+const clearChecked = document.getElementById('clearChecked')
 let dataHolder = []
 let paginationBlock = document.getElementById("pagination");
 let pageCount = 1;
@@ -54,7 +57,11 @@ const getAll = () => {
 		.get("http://localhost:3000/")
 		.then((res) => {
 			dataHolder.push(res.data);
+			console.log(res.data)
 			displayData(res.data);
+			setPageCount();
+			renderPagination();
+			paginationDisplay();
 		})
 		.catch((err) => {
 			console.log("err", err);
@@ -67,6 +74,7 @@ const sendData = () => {
 	axios
 		.post("http://localhost:3000/add", {
 			todo: taskInput.value,
+			checked : false,
 		})
 		.then((res) => {
 			dataHolder = [res.data]
@@ -80,6 +88,7 @@ const sendData = () => {
 const updateData = (id) => {
 	console.log('--------update worked')
 	let todo = document.getElementById(id)
+	let getCheck = todo.querySelector('.checkBox')
 	let getEdit = todo.querySelector('.editInput')
 	axios
 		.put(`http://localhost:3000/edit/${id}`, {
@@ -93,6 +102,34 @@ const updateData = (id) => {
 			console.log("err", err);
 		});
 };
+const isTrue = (n) => {
+	if (n.checked === true) {
+		  	n.checked = true;
+		  	return true;
+	} else {
+				n.checked = false;
+				return false;
+	}
+}
+
+const updateCheck = () => {
+	console.log('-------boolean has changed')
+	let getCheckbox = document.querySelectorAll('.checkBox')
+	let makeArray = Array.from(getCheckbox)
+	
+	console.log('--------makeArray', makeArray);
+	console.log('--------makeArray.every(isTrue)', makeArray.every(item => item.checked));
+	axios
+		.put(`http://localhost:3000/checkEdit/`,{
+			checked :  makeArray.every(isTrue)
+		}).then((res) => {
+		console.log("res", res);
+		})
+		.catch((err) => {
+			console.log("err", err);
+		});
+
+}
 
 const deleteData = (id) => {
 	axios
@@ -104,6 +141,19 @@ const deleteData = (id) => {
 			console.log("err", err);
 		});
 };
+
+
+const deleteCheck = () => {
+	axios
+		.delete('http://localhost:3000/deleteAllChecked')
+		.then((res) => {
+			console.log("res", res);
+		})
+		.catch((err) => {
+			console.log("err", err);
+		});
+};
+
 
 const displayData = (todo) => {
 	todo.forEach((todo) => {
@@ -120,6 +170,8 @@ const displayData = (todo) => {
 
 		let checkBox = document.createElement("input");
 		checkBox.setAttribute("type", "checkbox");
+		checkBox.setAttribute('class','checkBox')
+		checkBox.addEventListener('click',() => checkSingle())
 
 		let deleteButton = document.createElement("button");
 		deleteButton.innerText = "Delete";
@@ -241,6 +293,70 @@ const deleteElement = (elementID) => {
 	paginationDisplay();
 };
 
+const checkSingle = () => {
+	let getLi = document.querySelector('.checkBox')
+	if (getLi.checked) {
+		getLi.checked = true;
+		updateData(getLi.parentNode.id)
+	} else {
+		getLi.checked = false;
+		updateData(getLi.parentNode.id)
+
+	}
+}
+
+getCheckAll.addEventListener('click',() => checkAll());
+const checkAll = () => {
+	
+	console.log('-------check');
+	
+	let arrayOfCheckboxes = Array.from(document.querySelectorAll('.checkBox'))
+
+	console.log('--------getLi', arrayOfCheckboxes.every(item => item.checked));
+
+	// getLi.forEach(items => {
+	// 	let containsClass = items.classList.contains('checkAll');
+	// 	if (containsClass) {
+	// 		console.log('Going on!')
+	//
+	// 	}
+	// 	else {
+	// 		items.checked = true;
+	// 		items.classList.toggle('checkAll')
+	// 		updateCheck(items.parentNode.id)
+	//
+	// 	}
+	// })
+}
+
+getClear.addEventListener('click',() => unCheck())
+const unCheck = () => {
+	console.log('--------unCheck');
+	// let getLi = document.querySelectorAll('.checkBox');
+	// getLi.forEach(items => {
+	// 	if (items.checked) {
+	// 		items.checked = false;
+	// 		items.classList.remove('checkAll')
+	// 		updateCheck(items.parentNode.id)
+	// 	}
+	// })
+}
+
+clearChecked.addEventListener('click',() => deleteChecked())
+const deleteChecked = () => {
+	let checkboxHolder =[]
+	let getLi = document.querySelectorAll('.checkBox')
+	getLi.forEach(items => {
+		if (items.checked) {
+			items.parentNode.parentNode.removeChild(items.parentNode)
+			checkboxHolder.push(items.parentNode.id)
+			deleteCheck()
+			setPageCount();
+			renderPagination();
+			paginationDisplay();
+		}
+	})
+}
 
 let addButton = document.getElementById("addBtn");
 addButton.addEventListener('click', () => {
