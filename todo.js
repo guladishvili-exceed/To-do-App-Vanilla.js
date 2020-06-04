@@ -1,6 +1,6 @@
 let taskHolder = document.getElementById("task-holder");
 const taskInput = document.getElementById("input-task");
-let getCheckAll = document.getElementById('checkAll')
+let checkAllButton = document.getElementById('checkAll')
 const deleteChecked = document.getElementById('deleteChecked')
 let paginationBlock = document.getElementById("pagination");
 let pageCount = 1;
@@ -55,6 +55,7 @@ const getAll = () => {
 		.get("http://localhost:3000/")
 		.then((res) => {
 			displayData(res.data);
+			handleCheckAllButtonInnerText()
 			setPageCount();
 			renderPagination();
 			paginationDisplay();
@@ -291,6 +292,18 @@ const deleteElement = (elementID) => {
 	paginationDisplay();
 };
 
+
+const handleCheckAllButtonInnerText = () => {
+	let getAllCheckBoxesOnPage = document.querySelectorAll('.checkBox')
+	let convertCheckboxesOnPageIntoArray = Array.from(getAllCheckBoxesOnPage)
+
+	if (isAllCheckboxesChecked() && convertCheckboxesOnPageIntoArray.length !== 0 ) {
+		checkAllButton.innerText = 'Uncheck All'
+	} else {
+		checkAllButton.innerText = 'Check All'
+	}
+}
+
 const isAllCheckboxesChecked = () => {
 	let checkBoxArray = Array.from(document.querySelectorAll('.checkBox'))
 	return checkBoxArray.every(item => item.checked);
@@ -300,13 +313,13 @@ const handleChangeCheckbox = (id) => {
 	updateSingleCheckBox(id);
 	
 		if (isAllCheckboxesChecked()) {
-			getCheckAll.innerText = 'Uncheck All'
+			checkAllButton.innerText = 'Uncheck All'
 		} else {
-			getCheckAll.innerText = 'Check All'
+			checkAllButton.innerText = 'Check All'
 		}
 }
 
-getCheckAll.addEventListener('click', () => checkAll());
+checkAllButton.addEventListener('click', () => checkAll());
 const checkAll = () => {
 
 	let checkBoxEvery = isAllCheckboxesChecked();
@@ -315,47 +328,45 @@ const checkAll = () => {
 	let convertCheckBoxListToArray = Array.from(getCheckBoxArray)
 	if (checkBoxEvery !== false) {
 		convertCheckBoxListToArray.forEach(item => {
-			getCheckAll.innerText = 'Check All'
+			checkAllButton.innerText = 'Check All'
 			item.checked = false;
-			console.log(item.checked)
 		})
 		updateAllCheckboxRequest()
 
 	}else {
 		convertCheckBoxListToArray.forEach(item => {
-			getCheckAll.innerText = 'Uncheck All'
+			checkAllButton.innerText = 'Uncheck All'
 			item.checked = true;
-			console.log(item.checked)
 		})
 		updateAllCheckboxRequest()
-
 	}
-
-	console.log('--------checkBoxEvery', checkBoxEvery);
-
 }
 
 
 deleteChecked.addEventListener('click', () => removeChecked())
 const removeChecked = () => {
-		getCheckAll.innerText = 'Check All'
-		let getCheckbox = document.querySelectorAll('.checkBox')
-		getCheckbox.forEach(item => {
-			if (item.checked === true) {
-				item.parentNode.parentNode.removeChild(item.parentNode)
+	let CheckBoxArray = document.querySelectorAll('.checkBox')
+	let convertCheckBoxListToArray = Array.from(CheckBoxArray)
+	checkAllButton.innerText = 'Check All'
+		convertCheckBoxListToArray.forEach(items => {
+			if (items.checked) {
+				items.parentNode.parentNode.removeChild(items.parentNode);
 			}
 		})
 	checkDelete();
 	setPageCount();
 	renderPagination();
 	paginationDisplay();
-
-
 }
 
 let addButton = document.getElementById("addBtn");
 addButton.addEventListener('click', () => {
-	sendData();
+
+	if (taskInput.value === '') {
+		alert('Enter something!')
+	} else {
+		sendData()
+	}
 	setPageCount();
 	renderPagination();
 	paginationDisplay();
